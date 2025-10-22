@@ -1,0 +1,18 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\foreignlanguage {russian}{ВВЕДЕНИЕ}}{3}{section*.2}%
+\contentsline {section}{\numberline {1}Аналитическая часть}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Вывод}{4}{subsection.1.1}%
+\contentsline {section}{\numberline {2}Конструкторская часть}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Вывод}{5}{subsection.2.1}%
+\contentsline {section}{\numberline {3}Технологическая часть}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Выбор средств реализации}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Примеры работы программной реализации}{6}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Вывод}{10}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Исследовательская часть}{11}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Цель}{11}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Оценка затрачиваемой памяти алгоритмов}{11}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Оценка трудоемкости алгоритмов}{11}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Вывод}{12}{subsection.4.4}%
+\contentsline {section}{ЗАКЛЮЧЕНИЕ}{13}{section*.4}%
+\contentsline {section}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}{14}{section*.5}%
+\contentsline {section}{ПРИЛОЖЕНИЕ А}{15}{section*.7}%
