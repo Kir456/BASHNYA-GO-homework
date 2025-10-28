@@ -1,41 +1,83 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 )
 
+type IntStack struct {
+	items []int
+}
+
+func NewIntStack() *IntStack {
+	return &IntStack{
+		items: make([]int, 0),
+	}
+}
+
+func (a *IntStack) Push(num int) {
+	a.items = append(a.items, num)
+}
+
+func (a *IntStack) IsEmpty() bool {
+	return len(a.items) == 0
+}
+
+func (a *IntStack) Size() int {
+	return len(a.items)
+}
+
+func (a *IntStack) Clear() {
+	a.items = make([]int, 0)
+}
+
+func (a *IntStack) Pop() (int, error) {
+	if a.IsEmpty() {
+		return 0, errors.New("Ошибка: стек пуст")
+	}
+	last_ind := len(a.items) - 1
+	item := a.items[last_ind]
+	a.items = a.items[:last_ind]
+	return item, nil
+}
+
 func main() {
-	var num int
-	fmt.Scan(&num)
+	// создание стека
+	stack := NewIntStack()
 
-	ok := 0
-	if num >= 12307 {
-		fmt.Println("Ошибка: число слишком большое")
-		ok = 1
-	}
+	// проверка: пустой ли стек
+	fmt.Println("условие: стек пуст -", stack.IsEmpty())
 
-	for num < 12307 {
-		if num < 0 {
-			num = -num
-		} else if num%7 == 0 {
-			num *= 39
-		} else if num%9 == 0 {
-			num = num*13 + 1
-			continue
-		} else {
-			num = (num + 2) * 3
-		}
+	// длина стека
+	fmt.Println("длина стека -", stack.Size())
 
-		if (num%13 == 0) && (num%9 == 0) {
-			fmt.Println("service error")
-			ok = 1
-			break
-		} else {
-			num += 1
-		}
-	}
+	// добавление элементов в стек
+	stack.Push(10)
+	stack.Push(20)
+	stack.Push(100)
 
-	if ok == 0 {
-		fmt.Println("В результате получили число", num)
-	}
+	fmt.Println("элементы стека:", stack)
+
+	// проверка: пустой ли стек
+	fmt.Println("условие: стек пуст -", stack.IsEmpty())
+
+	// длина стека
+	fmt.Println("длина стека -", stack.Size())
+
+	// удаление и присвоение последнего элемента стека
+	a, _ := stack.Pop()
+	fmt.Println("последний элемент стека -", a)
+
+	fmt.Println("элементы стека:", stack)
+	fmt.Println("длина стека -", stack.Size())
+
+	// очистка стека
+	stack.Clear()
+	fmt.Println("элементы стека:", stack)
+	fmt.Println("условие: стек пуст -", stack.IsEmpty())
+
+	// попытка вызова Pop() для пустого стека
+	b, err := stack.Pop()
+	fmt.Println("последний элемент стека -", b)
+	fmt.Println("статус ошибки -", err)
 }
