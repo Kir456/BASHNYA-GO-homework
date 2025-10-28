@@ -1,132 +1,106 @@
 package main
 
 import (
+	"errors"
 	"fmt"
-	"strconv"
-	"unicode/utf8"
 )
 
+type IntDeque struct {
+	items []int
+}
+
+func NewIntDeque() *IntDeque {
+	return &IntDeque{
+		items: make([]int, 0),
+	}
+}
+
+func (a *IntDeque) IsEmpty() bool {
+	return len(a.items) == 0
+}
+
+func (a *IntDeque) Size() int {
+	return len(a.items)
+}
+
+func (a *IntDeque) Clear() {
+	a.items = make([]int, 0)
+}
+
+func (a *IntDeque) PopBack() (int, error) {
+	if a.IsEmpty() {
+		return 0, errors.New("Ошибка: дек пуст")
+	}
+	last_ind := len(a.items) - 1
+	item := a.items[last_ind]
+	a.items = a.items[:last_ind]
+	return item, nil
+}
+
+func (a *IntDeque) PopFront() (int, error) {
+	if a.IsEmpty() {
+		return 0, errors.New("Ошибка: дек пуст")
+	}
+	item := a.items[0]
+	a.items = a.items[1:]
+	return item, nil
+}
+
+func (a *IntDeque) PushBack(num int) {
+	a.items = append(a.items, num)
+}
+
+func (a *IntDeque) PushFront(num int) {
+	a.items = append([]int{num}, a.items...)
+}
+
 func main() {
-	first := [9]string{"один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"}
-	second := [9]string{"десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто"}
-	third := [9]string{"сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот"}
-	second_and_first := [9]string{"одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"}
-	extra_first := [2]string{"одна", "две"}
-	var num int
-	fmt.Scan(&num)
+	// создание дека
+	deque := NewIntDeque()
 
-	ok := 0
-	if num >= 12307 {
-		fmt.Println("Ошибка: число слишком большое")
-		ok = 1
-	}
+	// проверка: пустой ли дек
+	fmt.Println("условие: дек пуст -", deque.IsEmpty())
 
-	for num < 12307 {
-		if num < 0 {
-			num = -num
-		} else if num%7 == 0 {
-			num *= 39
-		} else if num%9 == 0 {
-			num = num*13 + 1
-			continue
-		} else {
-			num = (num + 2) * 3
-		}
+	// длина дека
+	fmt.Println("длина дека -", deque.Size())
 
-		if (num%13 == 0) && (num%9 == 0) {
-			fmt.Println("service error")
-			ok = 1
-			break
-		} else {
-			num += 1
-		}
-	}
+	// добавление элементов в дек
+	deque.PushBack(10)
+	deque.PushBack(20)
+	deque.PushFront(100)
 
-	if ok == 0 {
-		conv_num := strconv.Itoa(num)
-		length := utf8.RuneCountInString(conv_num)
-		var string_num string
+	fmt.Println("элементы дека:", deque)
 
-		word := ""
-		if conv_num[length-4] == '1' {
-			word = "тысяча"
-		} else if conv_num[length-4] == '2' || conv_num[length-4] == '3' {
-			word = "тысячи"
-		} else {
-			word = "тысяч"
-		}
+	// проверка: пустой ли дек
+	fmt.Println("условие: дек пуст -", deque.IsEmpty())
 
-		flag := 0
-		last := ""
-		if conv_num[length-2] == '1' {
-			flag = 1
-			if conv_num[length-1] == '0' {
-				last = second[0]
-			} else {
-				digit_int := int(conv_num[length-1] - '0')
-				last = second_and_first[digit_int-1]
-			}
-		}
+	// длина дека
+	fmt.Println("длина дека -", deque.Size())
 
-		if flag == 0 {
-			for i := length - 1; i >= 0; i-- {
-				if conv_num[i] == '0' {
-					if length-i == 4 {
-						string_num = " " + word + string_num
-					}
-					continue
-				}
-				digit_int_for := int(conv_num[i] - '0')
-				if (length-i)%3 == 0 {
-					string_num = " " + third[digit_int_for-1] + string_num
-				} else if (length-i)%3 == 2 {
-					string_num = " " + second[digit_int_for-1] + string_num
-				} else {
-					if length-i == 4 {
-						string_num = " " + word + string_num
-						if digit_int_for == 1 {
-							string_num = " " + extra_first[0] + string_num
-						} else if digit_int_for == 2 {
-							string_num = " " + extra_first[1] + string_num
-						} else {
-							string_num = " " + first[digit_int_for-1] + string_num
-						}
-					} else {
-						string_num = " " + first[digit_int_for-1] + string_num
-					}
-				}
-			}
-		} else {
-			string_num = " " + last
-			for i := length - 3; i >= 0; i-- {
-				if conv_num[i] == '0' {
-					if length-i == 4 {
-						string_num = " " + word + string_num
-					}
-					continue
-				}
-				digit_int_for := int(conv_num[i] - '0')
-				if (length-i)%3 == 0 {
-					string_num = " " + third[digit_int_for-1] + string_num
-				} else if (length-i)%3 == 2 {
-					string_num = " " + second[digit_int_for-1] + string_num
-				} else {
-					if length-i == 4 {
-						string_num = " " + word + string_num
-						if digit_int_for == 1 {
-							string_num = " " + extra_first[0] + string_num
-						} else if digit_int_for == 2 {
-							string_num = " " + extra_first[1] + string_num
-						} else {
-							string_num = " " + first[digit_int_for-1] + string_num
-						}
-					} else {
-						string_num = " " + first[digit_int_for-1] + string_num
-					}
-				}
-			}
-		}
-		string_num = "-" + string_num
-		fmt.Println("В результате получили число", num, string_num)
-	}
+	// удаление и присвоение последнего элемента дека
+	a, _ := deque.PopBack()
+	fmt.Println("последний элемент дека -", a)
+
+	fmt.Println("элементы дека:", deque)
+	fmt.Println("длина дека -", deque.Size())
+
+	// удаление и присвоение первого элемента дека
+	a, _ = deque.PopFront()
+	fmt.Println("первый элемент дека -", a)
+
+	fmt.Println("элементы дека:", deque)
+	fmt.Println("длина дека -", deque.Size())
+
+	// очистка дека
+	deque.Clear()
+	fmt.Println("элементы дека:", deque)
+	fmt.Println("условие: дек пуст -", deque.IsEmpty())
+
+	// попытка вызова PopBack() и PopFront() для пустого дека
+	b, err := deque.PopBack()
+	fmt.Println("последний элемент дека -", b)
+	fmt.Println("статус ошибки -", err)
+	b, err = deque.PopFront()
+	fmt.Println("первый элемент дека -", b)
+	fmt.Println("статус ошибки -", err)
 }
